@@ -1,2 +1,1 @@
-# wanted-preonboarding-subject-4
-Created with CodeSandbox
+# 책책책 책을 찾읍시다!
