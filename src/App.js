@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Provider } from 'react-redux'
 import {
   BrowserRouter as Router,
@@ -17,7 +17,6 @@ function Routes() {
     enter: { opacity: 1 },
     leave: { opacity: 0 }
   })
-  console.log(transitions)
 
   return transitions.map(({ item: location, props, key }) => (
     <animated.div key={key} className="absolute w-full" style={props}>
