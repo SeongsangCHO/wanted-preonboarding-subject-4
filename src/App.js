@@ -10,6 +10,7 @@ import { useTransition, animated } from 'react-spring'
 import { Main, Result, Filters } from './pages'
 import store from './store'
 
+//  파일 분리
 function Routes() {
   const location = useLocation()
   const transitions = useTransition(location, (location) => location.pathname, {
@@ -21,6 +22,7 @@ function Routes() {
   return transitions.map(({ item: location, props, key }) => (
     <animated.div key={key} className="absolute w-full" style={props}>
       <Switch location={location}>
+        {/* ROUTE 상수화, props로 컴포넌트 주입 */}
         <Route exact path="/">
           <Main />
         </Route>

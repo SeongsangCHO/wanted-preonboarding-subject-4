@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { setSearch } from '../../store/search'
+import { setSearch, setPathname } from '../store/search' //경로원래틀렸음
 
 function useSync() {
   const dispatch = useDispatch()
-  const { search } = useLocation()
+  const { search, pathname } = useLocation()
 
   useEffect(() => {
     if (!search) {
@@ -13,7 +13,10 @@ function useSync() {
     }
 
     dispatch(setSearch(search))
-  }, [dispatch, search])
+    dispatch(setPathname(pathname))
+  }, [dispatch, search, pathname])
+
+  // return search
 }
 
 export default useSync

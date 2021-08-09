@@ -24,6 +24,7 @@ const booksSlice = createSlice({
   reducers: {
     //해당 action이 dispatch되면 바로 액션을 처리 -> 해당함수가 호출되면 바로 state update
     getItemsStart(state, action) {
+      console.log(action)
       //loading 보여주기
       if (action.payload === 0) {
         state.items = []
@@ -33,6 +34,9 @@ const booksSlice = createSlice({
       state.status = Status.Loading
     },
     getItemsSuccess(state, action) {
+      console.log('getItesmSuccess? ')
+      console.log(action)
+
       //item 불러와졌을 때, action에 대한 데이터 update
       const { items, totalItems, startIndex } = action.payload
       const nextItems = startIndex ? state.items.concat(items) : items
@@ -43,7 +47,9 @@ const booksSlice = createSlice({
       state.status = Status.Success
     },
     getItemsFailure(state, action) {
-      state.error = action.payload
+      // state.error = action.payload
+      state.status = Status.Failure
+      console.log('에러발생', state.error)
     }
   }
 })
@@ -53,32 +59,25 @@ export const { getItemsStart, getItemsSuccess, getItemsFailure } =
   booksSlice.actions
 export default booksSlice.reducer
 
-export const selectBooks = (state) => state.books
+//store중 books에 해당하는 state return
+export const selectBooks = (state) => {
+  return state.books
+}
 
-/*
-Result/index.js
-useEffect(() => {
-  if (!search) {
-    return
+// ! who is dispatch ? -> https://redux-toolkit.js.org/usage/usage-guide
+// async request using redux-thunk in toolkit - middleware
+export const fetchBooks =
+  (search, startIndex = 0) =>
+  async (dispatch) => {
+    try {
+      dispatch(getItemsStart(startIndex))
+      const data = await getBooks(search, startIndex)
+      dispatch(getItemsSuccess({ ...data, startIndex }))
+    } catch (error) {
+      console.log(error)
+      dispatch(getItemsFailure(error))
+    }
   }
-
-  dispatch(fetchBooks(search))
-}, [dispatch, search])
-*/
-// export const fetchBooks =
-//   (search, startIndex = 0) =>
-//   async (dispatch) => {
-//     // ! who is dispatch ?
-//     // console.log('fetchBooks dispatch', dispatch)
-//     try {
-//       dispatch(getItemsStart(startIndex))
-//       const response = await getBooks(search, startIndex)
-//       const data = await response.json()
-//       dispatch(getItemsSuccess({ ...data, startIndex }))
-//     } catch (error) {
-//       dispatch(getItemsFailure(error))
-//     }
-//   }
 
 /* same as  */
 // export const fetchBooks = (search, startIndex = 0) =>
@@ -94,15 +93,15 @@ useEffect(() => {
 //   }
 
 /* same as  */
-export function fetchBooks(search, startIndex = 0) {
-  return async function (dispatch) {
-    try {
-      dispatch(getItemsStart(startIndex))
-      const response = await getBooks(search, startIndex)
-      const data = await response.json()
-      dispatch(getItemsSuccess({ ...data, startIndex }))
-    } catch (error) {
-      dispatch(getItemsFailure(error))
-    }
-  }
-}
+// export function fetchBooks(search, startIndex = 0) {
+//   return async function (dispatch) {
+//     try {
+//       dispatch(getItemsStart(startIndex))
+//       const response = await getBooks(search, startIndex)
+//       const data = await response.json()
+//       dispatch(getItemsSuccess({ ...data, startIndex }))
+//     } catch (error) {
+//       dispatch(getItemsFailure(error))
+//     }
+//   }
+// }

@@ -14,6 +14,7 @@ function Book({ defaultClassName, volumeInfo }) {
           })
         )}
         alt=""
+        // alt값 추가
       />
       <div
         className={cx(
@@ -24,6 +25,7 @@ function Book({ defaultClassName, volumeInfo }) {
         )}
       >
         <div className={styles.content}>
+          {/* title인데 div태그 ? */}
           <div className={styles.title} title={volumeInfo?.title}>
             {volumeInfo?.title}
           </div>

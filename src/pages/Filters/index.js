@@ -9,16 +9,17 @@ import Radio from '../../components/Form/Radio'
 
 function Filters() {
   const history = useHistory()
-  const { state, handleChange, handleSubmit } = useForm()
+  const { state, handleSubmit, handleSelect } = useForm()
   const handleCancel = () => {
     history.goBack()
+    // 취소 클릭시 이전상태로 돌아가며 API 다시 호출함
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <Stack gaps={[0, 20, 20, 40]}>
         <Fieldset legend="필터링">
-          <Select id="filter" value={state.filter} onChange={handleChange}>
+          <Select id="filter" value={state.filter} onChange={handleSelect}>
             {[
               ['', '없음'],
               ['partial', '미리보기 가능'],
@@ -41,7 +42,7 @@ function Filters() {
               name="printType"
               value="all"
               checked={state.printType === 'all'}
-              onChange={handleChange}
+              onChange={handleSelect}
               label="전체"
             />
             <Radio
@@ -49,7 +50,7 @@ function Filters() {
               name="printType"
               value="books"
               checked={state.printType === 'books'}
-              onChange={handleChange}
+              onChange={handleSelect}
               label="일반도서"
             />
             <Radio
@@ -57,7 +58,7 @@ function Filters() {
               name="printType"
               value="magazines"
               checked={state.printType === 'magazines'}
-              onChange={handleChange}
+              onChange={handleSelect}
               label="잡지"
             />
           </Stack>
@@ -70,7 +71,7 @@ function Filters() {
               name="orderBy"
               value="relevance"
               checked={state.orderBy === 'relevance'}
-              onChange={handleChange}
+              onChange={handleSelect}
               label="관련성"
             />
             <Radio
@@ -78,7 +79,7 @@ function Filters() {
               name="orderBy"
               value="newest"
               checked={state.orderBy === 'newest'}
-              onChange={handleChange}
+              onChange={handleSelect}
               label="최신순"
             />
           </Stack>
